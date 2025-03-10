@@ -226,54 +226,7 @@
             lacus. Bibendum at varius vel pharetra vel.
           </p>
 
-          <!-- <div class="tabs-container">
-            <div class="tabs">
-              <button class="tab-btn active" data-tab="tab1">
-                <h3>Convallis tellus id interdum velit</h3>
-                <p>
-                  Est pellentesque elit ullamcorper dignissim cras. In
-                  pellentesque massa placerat duis ultricies.
-                </p>
-              </button>
-              <button class="tab-btn" data-tab="tab2">
-                <h3>Id interdum velit laoreet id donec ultrices</h3>
-                <p>
-                  Donec massa sapien faucibus et molestie ac feugiat sed. Congue
-                  mauris rhoncus aenean vel elit scelerisque.
-                </p>
-              </button>
-              <button class="tab-btn" data-tab="tab3">
-                <h3>Sapien et ligula ullamcorper malesuada</h3>
-                <p>
-                  Donec massa sapien faucibus et molestie ac feugiat sed. Congue
-                  mauris rhoncus aenean vel elit scelerisque.
-                </p>
-              </button>
-            </div>
-            <div class="tab-content">
-              <div class="tab-pane active" id="tab1">
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Dashboard Analytics"
-                  class="tab-image"
-                />
-              </div>
-              <div class="tab-pane" id="tab2">
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Dashboard Features"
-                  class="tab-image"
-                />
-              </div>
-              <div class="tab-pane" id="tab3">
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Dashboard Overview"
-                  class="tab-image"
-                />
-              </div>
-            </div>
-          </div> -->
+         
 
           <div class="tabs-container">
             <div class="tab">
@@ -556,9 +509,7 @@
               </div>
               <p class="testimonial-text">
                 Cras fermentum odio eu feugiat pretium nibh ipsum consequat
-                nisi. Nec nam aliquam sem et tortor consequat id porta nibh.
-                Viverra suspendisse. Lacus sed viverra tellus in hac habitasse
-                platea dictumst. Elit at imperdiet dui accumsan.
+                nisi.
               </p>
               <div class="testimonial-author">
                 <img
@@ -572,6 +523,9 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="load-more-container">
+            <button class="load-more-btn">Load More</button>
           </div>
         </section>
 
@@ -824,6 +778,7 @@
                 src="/images/MockUp (1).png"
                 alt=""
               />
+              <img src="/images/Frame (2).png" alt="" />
             </div>
           </div>
         </section>
@@ -983,6 +938,65 @@
             faqItem.classList.add("active");
           }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const loadMoreBtn = document.querySelector('.load-more-btn');
+          const testimonialCards = document.querySelectorAll('.testimonial-card');
+          let currentlyShown = 4;
+
+          // Function to update card visibility
+          function updateCardVisibility() {
+            testimonialCards.forEach((card, index) => {
+              if (window.innerWidth <= 768) {
+                // Mobile view: show/hide cards based on currentlyShown
+                if (index < currentlyShown) {
+                  card.classList.remove('hidden');
+                } else {
+                  card.classList.add('hidden');
+                }
+              } else {
+                // Desktop view: show all cards
+                card.classList.remove('hidden');
+              }
+            });
+
+            // Show/hide load more button only on mobile
+            if (window.innerWidth <= 768) {
+              if (currentlyShown >= testimonialCards.length) {
+                loadMoreBtn.style.display = 'none';
+              } else {
+                loadMoreBtn.style.display = 'inline-block';
+              }
+            } else {
+              loadMoreBtn.style.display = 'none';
+            }
+          }
+
+          // Initial state
+          updateCardVisibility();
+
+          // Load more button click handler
+          loadMoreBtn.addEventListener('click', function() {
+            currentlyShown += 4;
+            updateCardVisibility();
+          });
+
+          // Handle window resize
+          let resizeTimer;
+          window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+              if (window.innerWidth > 768) {
+                // Desktop view: show all cards
+                currentlyShown = testimonialCards.length;
+              } else {
+                // Mobile view: show first 4 cards
+                currentlyShown = 4;
+              }
+              updateCardVisibility();
+            }, 250);
+          });
+        });
       </script>
     </header>
   </body>
